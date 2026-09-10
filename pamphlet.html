@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b52"><title>Gift Planning Scenario · Invest America × Trump Accounts</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23102b52'/%3E%3Ctext x='8' y='33' fill='white' font-size='28' font-family='serif'%3EIA%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="./src/pamphlet.css"></head>
+<body>
+<div class="toolbar no-print"><a class="back" href="./index.html">← Back to dashboard</a><span class="tb-title" id="tb-title">Preparing your pamphlet…</span><button id="print" class="primary"><span aria-hidden="true">↓</span> Download PDF</button></div>
+<main id="doc">
+<section class="page p1">
+ <header class="brandhead"><span class="date" id="date"></span><div class="brandgroup"><img class="ta-lockup" src="./public/assets/trumpaccounts-gov.svg" alt="TrumpAccounts.gov, powered by U.S. Treasury"><img class="ia" src="./public/assets/invest-america.svg" alt="Invest America"></div></header>
+ <div class="hero-band">
+  <div class="eyebrow">GIFT PLANNING SCENARIO</div>
+  <h1 id="headline">Preparing your scenario…</h1>
+  <p class="lede" id="lede"></p>
+  <p class="compliance" id="compliance" hidden></p>
+ </div>
+ <div class="kpis">
+  <div class="kpi"><span>Estimated children reached</span><strong id="k-reach">…</strong><em id="k-reach-note"></em></div>
+  <div class="kpi"><span>Total gift commitment</span><strong id="k-funding">…</strong><em id="k-funding-note"></em></div>
+  <div class="kpi"><span>Gift per child</span><strong id="k-gift">…</strong><em id="k-gift-note"></em></div>
+ </div>
+ <div class="grid2">
+  <div class="card"><div class="card-head"><h2 id="map-title">Geographic reach</h2><p id="map-sub"></p></div><svg id="map" viewBox="0 0 975 610" role="img" aria-label="Map of the United States with the scenario area highlighted"></svg></div>
+  <div class="card"><div class="card-head"><h2>Who could benefit</h2><p>Children reached, relative to the federal poverty level.</p></div><div class="pov-total"><strong id="pov-total"></strong><span>children reached</span></div><div class="stack" id="stack" role="img"></div><div id="pov-rows"></div></div>
+ </div>
+ <div class="facts">
+  <div><span>Median family income</span><strong id="f-mfi"></strong><em>median of qualifying ZIP medians</em></div>
+  <div><span>ZIP codes in scope</span><strong id="f-zips"></strong><em id="f-zips-note"></em></div>
+  <div><span>Income limit</span><strong id="f-limit"></strong><em>ZIP median family income</em></div>
+  <div><span>Projected value at 18</span><strong id="f-growth"></strong><em id="f-growth-note"></em></div>
+ </div>
+ <footer class="pfoot"><span>U.S. Census Bureau, American Community Survey 5-Year Estimates, 2020–2024 (tables B17024, B19113), ZIP Code Tabulation Areas.</span><span>1 / 2</span></footer>
+</section>
+<section class="page p2">
+ <header class="brandhead small"><div class="brandgroup row"><img class="ta-lockup" src="./public/assets/trumpaccounts-gov.svg" alt="TrumpAccounts.gov, powered by U.S. Treasury"><span class="dot" aria-hidden="true"></span><img class="ia" src="./public/assets/invest-america.svg" alt="Invest America"></div><span class="date" id="scope-2"></span></header>
+ <div class="grid2 tall">
+  <div class="card"><div class="card-head"><h2>Children by ZIP income</h2><p>Children in the selected ages, grouped by their ZIP’s median family income. Gold bars qualify under the income limit.</p></div><svg id="hist" viewBox="0 0 560 200" role="img" aria-label="Children by ZIP median family income band"></svg></div>
+  <div class="card"><div class="card-head"><h2>Top ZIP codes</h2><p>Ranked by estimated children reached.</p></div><ol class="top" id="top"></ol></div>
+ </div>
+ <div class="grid2">
+  <div class="card"><div class="card-head"><h2>Scenario assumptions</h2></div><table class="assume" id="assume"></table></div>
+  <div class="card how"><div class="card-head"><h2>How Trump Accounts work</h2></div><ul><li><strong>$1,000 to start.</strong> The U.S. Treasury seeds an account for every American child born January 1, 2025 through December 31, 2028.</li><li><strong>In the child’s name.</strong> A parent or guardian is the sole custodian until the child turns 18.</li><li><strong>Room to grow.</strong> Family, friends, employers and philanthropists can add up to $5,000 a year.</li><li><strong>Invested for the long term.</strong> Balances grow over time into assets for education, housing, or a business.</li></ul><p class="cta"><span>Learn more at <strong>trumpaccounts.gov</strong></span><span>Make a gift pledge at <strong>investamerica.org/philanthropy-pledge</strong></span></p></div>
+ </div>
+ <div class="card method"><div class="card-head"><h2>Method and sources</h2></div><p>Children are U.S. Census Bureau American Community Survey 5-Year Estimates (2020–2024) of children under 18 for whom poverty status is determined (table B17024), read at the ZIP Code Tabulation Area level, the same universe reported by the Invest America gift planning dashboard. Income eligibility uses each ZIP’s median family income (table B19113): a ZIP qualifies when its median is at or below the selected limit; medians the Census suppresses stay in, and medians top-coded at “$250,000 or more” qualify only when the limit is above $250,000. Children reached = children in the selected ages and qualifying ZIPs × the claim rate, rounded per ZIP; the commitment = children reached × gift per child. Single-year age ranges take an even share of each Census age band (under 6, 6–11, 12–17). Counties and cities follow the 2020 Census ZIP-to-county and ZIP-to-place relationship files. A ZIP passing the income filter is not a determination of legal eligibility. ACS figures are survey estimates with sampling error, largest for small areas; validate before formal decisions.</p></div>
+ <div class="closing">One Gift.<br>Lasting Opportunity.</div><footer class="pfoot"><span id="prepared"></span><span>2 / 2</span></footer>
+</section>
+</main>
+<script type="module" src="./src/pamphlet.js"></script>
+</body></html>
