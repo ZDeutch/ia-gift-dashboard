@@ -22,21 +22,14 @@ function fillOptions(id,entries,label,value){$(id).innerHTML=`<option value="">$
 const stateName=abbr=>data?.states[abbr]?.name||abbr;
 function syncControls(){
  for(const key of Object.keys(defaults)) if($(key)) $(key).value=scenario[key];
- if(!scenario.budget) $('budget').value='';
  $('zip-chips').innerHTML=zips(scenario).map(z=>`<button type="button" data-rm="${z}" aria-label="Remove ZIP ${z} from the selection">${z} <span aria-hidden="true">×</span></button>`).join('');
  root.querySelectorAll('#zip-chips [data-rm]').forEach(b=>b.onclick=()=>removeZip(b.dataset.rm));
  $('zip-add').hidden=scenario.zip.length!==5||zips(scenario).includes(scenario.zip);
  const ready=!!data;
- for(const key of ['state','county','city','zip','income','minAge','maxAge']) $(key).disabled=!ready;
+ for(const key of ['state','zip','income']) $(key).disabled=!ready;
  if(!ready) return;
- fillOptions('state',Object.entries(data.states).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([k,v])=>[k,v.name]),'All states',scenario.state);
- const st=scenario.state?data.rows.filter(r=>r.state===scenario.state):[];
- fillOptions('county',[...new Set(st.map(r=>r.county))].sort().map(x=>[x,x]),'All counties',scenario.county);
- fillOptions('city',[...new Set(st.filter(r=>!scenario.county||r.county===scenario.county).map(r=>r.city).filter(Boolean))].sort().map(x=>[x,x]),'All cities',scenario.city);
- $('county').disabled=!scenario.state;$('city').disabled=!scenario.state;
- $('geo-hint').textContent=scenario.state?'County and city come from the 2020 Census ZIP-to-county and ZIP-to-place relationship files.':'Choose a state for county or city filters. ZIP search works nationwide; enter a full ZIP and add it to select several.';
+ fillOptions('state',Object.entries(data.states).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([k,v])=>[k,v.name]),'All of America',scenario.state);
  root.querySelectorAll('[data-gift]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.gift)===scenario.gift));
- $('claim-value').textContent=scenario.claim+'%';
 }
 function setState(state=''){scenario={...scenario,state,county:'',city:'',zip:'',zips:''};syncControls();render();}
 // Pinned ZIP selection: the search field finds a ZIP, "Add" pins it as a chip; the
@@ -100,7 +93,7 @@ function render(){
  $('map-sub').textContent=scenario.state?'Select the state again to return to the national view.':(scenario.zip||scenario.zips)?'States with matching ZIP codes are highlighted.':'Darker states have more children reached under the current settings. Select a state to focus the scenario.';
  $('table-title').textContent=local?`ZIP codes in ${scopeLabel()}`:'ZIP codes in the scenario';
  syncUrl();
- if($('share-link')) $('share-link').href='./give.html'+location.search;
+ if($('confirm-gift')) $('confirm-gift').href='./give.html'+location.search;
  renderLists(r);
 }
 // ZIP list, as in the original report: switch between ZIPs that qualify under the income limit and ZIPs that
@@ -124,20 +117,12 @@ function renderLists(r){
 root.querySelectorAll('.seg').forEach(b=>b.onclick=()=>{listGroup=b.dataset.group;listShown=LIST_PAGE;if(lastResult)renderLists(lastResult);});
 $('zip-more').onclick=()=>{listShown+=LIST_PAGE;if(lastResult)renderLists(lastResult);};
 $('state').onchange=e=>setState(e.target.value);
-$('county').onchange=e=>{scenario.county=e.target.value;scenario.city='';syncControls();render();};
-$('city').onchange=e=>{scenario.city=e.target.value;render();};
 $('zip').oninput=e=>{scenario.zip=e.target.value.replace(/\D/g,'').slice(0,5);scenario.state='';scenario.county='';scenario.city='';syncControls();render();};
 $('zip').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();pinSearchedZip();}};
 $('zip-add').onclick=pinSearchedZip;
 $('income').onchange=e=>{scenario.income=Number(e.target.value);render();};
-// Ages snap to the ACS bands offered in the selects; keep the range ordered.
-$('minAge').onchange=e=>{scenario.minAge=Number(e.target.value);if(scenario.minAge>scenario.maxAge)scenario.maxAge=scenario.minAge;syncControls();render();};
-$('maxAge').onchange=e=>{scenario.maxAge=Number(e.target.value);if(scenario.maxAge<scenario.minAge)scenario.minAge=scenario.maxAge;syncControls();render();};
 $('gift').oninput=e=>{const v=Number(e.target.value);if(e.target.value===''||!Number.isFinite(v)||v<MIN_GIFT||v>1000000){e.target.classList.add('invalid');e.target.setAttribute('aria-invalid','true');return;}e.target.classList.remove('invalid');e.target.removeAttribute('aria-invalid');scenario.gift=Math.round(v*100)/100;root.querySelectorAll('[data-gift]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.gift)===scenario.gift));render();};
 $('gift').onchange=e=>{if(e.target.classList.contains('invalid')){e.target.value=scenario.gift;e.target.classList.remove('invalid');e.target.removeAttribute('aria-invalid');showToast('Enter a gift between $25 and $1,000,000 — Section 530A gifts give each child at least $25.');}};
-$('claim').oninput=e=>{scenario.claim=Number(e.target.value);$('claim-value').textContent=scenario.claim+'%';render();};
-$('rate').onchange=e=>{scenario.rate=Number(e.target.value);render();};
-$('budget').oninput=e=>{const v=Number(e.target.value);scenario.budget=e.target.value===''||!Number.isFinite(v)||v<0?0:Math.min(1e12,Math.round(v));render();};
 root.querySelectorAll('[data-gift]').forEach(b=>b.onclick=()=>{scenario.gift=Number(b.dataset.gift);$('gift').classList.remove('invalid');$('gift').removeAttribute('aria-invalid');syncControls();render();});
 $('reset').onclick=()=>{scenario={...defaults};listGroup='eligible';listShown=LIST_PAGE;$('gift').classList.remove('invalid');$('gift').removeAttribute('aria-invalid');syncControls();render();showToast('Scenario reset to the national view.');};
 // Phones: the filters live in a full-screen sheet opened from the results header.
