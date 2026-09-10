@@ -1,6 +1,6 @@
-import {source,census,loadBundle} from './data.js?v=mtv33eh4';
-import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,recommendZips,growthProjection,budgetPlan,zipList as zips,MIN_RECIPIENTS,MIN_GIFT} from './model.js?v=mtv33eh4';
-import {mapStates} from './map-data.js?v=mtv33eh4';
+import {source,census,loadBundle} from './data.js?v=mtv3k6l4';
+import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,recommendZips,growthProjection,budgetPlan,zipList as zips,MIN_RECIPIENTS,MIN_GIFT} from './model.js?v=mtv3k6l4';
+import {mapStates} from './map-data.js?v=mtv3k6l4';
 // The dashboard can run standalone, in an iframe, or inline in another page inside a shadow root.
 const root=document.getElementById('ia-dashboard-host')?.shadowRoot||document.getElementById('ia-dashboard')||document;
 const $=id=>root.querySelector('#'+id), money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0,maximumFractionDigits:2}).format(n), num=n=>new Intl.NumberFormat('en-US').format(n);
@@ -36,6 +36,9 @@ function setState(state=''){scenario={...scenario,state,county:'',city:'',zip:''
 // scenario covers the union of pinned ZIPs and the current search prefix.
 function addZips(list){const cur=zips(scenario);for(const z of list) if(!cur.includes(z)) cur.push(z);scenario={...scenario,zips:cur.join(','),state:'',county:'',city:''};syncControls();render();}
 function removeZip(z){scenario.zips=zips(scenario).filter(x=>x!==z).join(',');syncControls();render();}
+// Toggling a ZIP from the list keeps the current state/county, so unpinning returns to
+// the view you were browsing rather than jumping back to the whole country.
+function toggleZip(z){const cur=zips(scenario);scenario={...scenario,zips:(cur.includes(z)?cur.filter(x=>x!==z):[...cur,z]).join(',')};syncControls();render();}
 function pinSearchedZip(){if(scenario.zip.length!==5||zips(scenario).includes(scenario.zip)) return;const z=scenario.zip;scenario.zip='';addZips([z]);showToast(`ZIP ${z} added to the selection.`);}
 // Map: every state in the bundle is selectable once the data has loaded.
 $('us-map').innerHTML=mapStates.map(s=>`<path d="${s.path}" data-fips="${s.id}"><title>${s.name}</title></path>`).join('');
@@ -51,6 +54,8 @@ function activateMap(){
  });
 }
 let lastResult=null;
+// The geography the ZIP list browses, ignoring pinned ZIPs.
+const poolLabel=()=>scenario.zip?'ZIP '+scenario.zip+(scenario.zip.length<5?'…':''):scenario.city||scenario.county||(scenario.state?stateName(scenario.state):'');
 const scopeLabel=()=>{const zl=zips(scenario);return zl.length?(zl.length===1&&!scenario.zip?'ZIP '+zl[0]:`${zl.length} selected ZIP${zl.length===1?'':'s'}${scenario.zip?' + '+scenario.zip+'…':''}`):scenario.zip?'ZIP '+scenario.zip+(scenario.zip.length<5?'…':''):scenario.city||scenario.county||(scenario.state?stateName(scenario.state):'United States');};
 function render(){
  if(!data){renderLoading();return;}
@@ -91,10 +96,14 @@ function render(){
  root.querySelectorAll('#us-map [data-state]').forEach(p=>{const on=lit.has(p.dataset.state);p.classList.remove('q1','q2','q3','q4','q5');p.classList.add(shade(r.byState[p.dataset.state]||0));p.classList.toggle('active',on);p.classList.toggle('dim',lit.size>0&&!on);p.setAttribute('aria-pressed',String(p.dataset.state===scenario.state));});
  $('map-heading').textContent=scenario.state?stateName(scenario.state):(scenario.zip||scenario.zips)&&lit.size?(lit.size===1?`${stateName([...lit][0])}`:`${lit.size} states`):'Children reached by state';
  $('map-sub').textContent=scenario.state?'Select the state again to return to the national view.':(scenario.zip||scenario.zips)?'States with matching ZIP codes are highlighted.':'Darker states have more children reached under the current settings. Select a state to focus the scenario.';
- $('table-title').textContent=local?`ZIP codes in ${scopeLabel()}`:'ZIP codes in the scenario';
+ // The list stays a picker: it shows every ZIP in the geography you are browsing, with the
+ // pinned ones ticked, so several can be toggled in a row. The metrics and map above still
+ // reflect the actual scenario, pins included.
+ const pool=scenario.zips?calculate(data.rows,{...scenario,zips:''}):r;
+ $('table-title').textContent=poolLabel()?`ZIP codes in ${poolLabel()}`:'ZIP codes in the scenario';
  syncUrl();
  if($('confirm-gift')) $('confirm-gift').href='./give.html'+location.search;
- renderLists(r);
+ renderLists(pool);
 }
 // ZIP list, as in the original report: switch between ZIPs that qualify under the income limit and ZIPs that
 // do not, sorted by median family income (highest first, unpublished last). "Show more" reveals ten at a time.
@@ -106,12 +115,18 @@ function renderLoading(){
  $('zip-list').innerHTML='<div class="empty">Loading 33,772 ZIP Code Tabulation Areas…</div>';$('zip-more').hidden=true;
 }
 function renderLists(r){
- const key=JSON.stringify(scenario);if(key!==listKey){listKey=key;listShown=LIST_PAGE;}
+ // Pagination resets when the browsed geography changes, but not when a ZIP is toggled —
+ // pinning one should not throw you back to the first ten.
+ const key=JSON.stringify([scenario.state,scenario.county,scenario.city,scenario.zip,scenario.income,scenario.minAge,scenario.maxAge]);
+ if(key!==listKey){listKey=key;listShown=LIST_PAGE;}
  const groups={eligible:r.rows.filter(x=>x.eligible),ineligible:r.rows.filter(x=>!x.eligible)};
  $('eligible-count').textContent=num(groups.eligible.length);$('ineligible-count').textContent=num(groups.ineligible.length);
  root.querySelectorAll('.seg').forEach(b=>{const on=b.dataset.group===listGroup;b.classList.toggle('on',on);b.setAttribute('aria-selected',String(on));});
  const rows=groups[listGroup].sort(byIncome),n=Math.min(listShown,rows.length),eligible=listGroup==='eligible';
- $('zip-list').innerHTML=rows.length?`<table class="zip-table"><thead><tr><th>ZIP code</th><th>Location</th><th class="num">Median family income</th><th class="num">${eligible?'Children reached':'Children'}</th></tr></thead><tbody>${rows.slice(0,n).map(x=>`<tr><td>${x.zip}</td><td>${esc(x.city||x.county)}, ${x.state}<small>${esc(x.city?x.county:stateName(x.state))}</small></td><td class="num">${incomeLabel(x.income,money)}</td><td class="num">${num(eligible?x.reached:Math.round(x.ageChildren))}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${eligible?'No ZIP codes qualify under these settings.':'Every ZIP code in this view qualifies.'}</div>`;
+ const pinned=new Set(zips(scenario));
+ const pin=z=>{const on=pinned.has(z);return `<td class="pin"><button type="button" data-pin="${z}" class="${on?'on':''}" aria-pressed="${on}" aria-label="${on?'Remove':'Add'} ZIP ${z} ${on?'from':'to'} your gift">${on?'✓':'+'}</button></td>`;};
+ $('zip-list').innerHTML=rows.length?`<table class="zip-table"><thead><tr><th>ZIP code</th><th>Location</th><th class="num">Median family income</th><th class="num">${eligible?'Children reached':'Children'}</th><th><span class="sr-only">Include in gift</span></th></tr></thead><tbody>${rows.slice(0,n).map(x=>`<tr><td>${x.zip}</td><td>${esc(x.city||x.county)}, ${x.state}<small>${esc(x.city?x.county:stateName(x.state))}</small></td><td class="num">${incomeLabel(x.income,money)}</td><td class="num">${num(eligible?x.reached:Math.round(x.ageChildren))}</td>${pin(x.zip)}</tr>`).join('')}</tbody></table>`:`<div class="empty">${eligible?'No ZIP codes qualify under these settings.':'Every ZIP code in this view qualifies.'}</div>`;
+ root.querySelectorAll('#zip-list [data-pin]').forEach(b=>b.onclick=()=>toggleZip(b.dataset.pin));
  const more=$('zip-more');more.hidden=n>=rows.length;more.textContent=`Show ${Math.min(LIST_PAGE,rows.length-n)} more · ${num(rows.length-n)} remaining`;
 }
 root.querySelectorAll('.seg').forEach(b=>b.onclick=()=>{listGroup=b.dataset.group;listShown=LIST_PAGE;if(lastResult)renderLists(lastResult);});

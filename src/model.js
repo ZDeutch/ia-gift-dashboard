@@ -1,4 +1,4 @@
-import {source,census,POVERTY_BANDS,TOP_CODE} from './data.js?v=mtv33eh4';
+import {source,census,POVERTY_BANDS,TOP_CODE} from './data.js?v=mtv3k6l4';
 export const defaults={state:'',county:'',city:'',zip:'',zips:'',income:250000,minAge:0,maxAge:17,claim:100,gift:250,rate:7,budget:0};
 // `zip` is the search prefix; `zips` is a comma-separated set of exact ZIP codes the user
 // has pinned. When either is present the scenario covers their union.

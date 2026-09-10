@@ -234,3 +234,50 @@ body{font-size:14px}
  .brandbar .logos{gap:16px}
  .masthead-title .header-h1{font-size:19px}
 }
+
+/* ---- Include-in-gift toggle on every ZIP row ---- */
+.zip-table td.pin{width:1%;text-align:right;white-space:nowrap}
+.zip-table td.pin button{width:30px;height:30px;border:1px solid #d8dfe8;border-radius:50%;background:#fff;color:var(--navy);font-size:14px;font-weight:600;line-height:1;cursor:pointer}
+.zip-table td.pin button:hover{border-color:var(--navy)}
+.zip-table td.pin button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* ---- Phone layout: thin stat bar, then the map, then the scenario controls ---- */
+@media(max-width:640px){
+ /* The results section dissolves so the scenario panel can sit between the map and the
+    ZIP list; each child then carries its own gutter. */
+ .results{display:contents}
+ .results>*{padding-left:16px;padding-right:16px}
+ .brandbar-mini{order:0}
+ .brandbar{order:1}
+ .compliance{order:2}
+ .metrics{order:3}
+ .analysis-grid{order:4}
+ .filters{order:5}
+ .budget-plan{order:6}
+ .zip-section{order:7}
+ .source-note{order:8;padding-bottom:26px}
+ .scope-bar{display:none}
+ /* 1. One thin box: children reached and gift per child. */
+ .metrics{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0;margin:14px 16px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+ .metrics .metric{border-top:0;border-radius:0;padding:9px 13px;min-width:0}
+ .metrics .metric+.metric{border-left:1px solid var(--line)}
+ .metrics .metric:nth-child(2),.metrics .metric:nth-child(4){display:none}
+ .metrics .metric-label{font-size:10px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .metrics .metric .metric-value,.metrics .small-metric .metric-value{font-size:27px;letter-spacing:-1px;line-height:1.15}
+ .metrics .metric-note{display:none}
+ /* 2. The map keeps its own heading, so the scope bar is redundant. */
+ .analysis-grid{padding-top:18px}
+ /* 3. Scenario controls live in the flow — no sheet, no button to open one. */
+ .filters,.workspace.filters-open .filters{display:block;position:static;inset:auto;z-index:auto;overflow:visible;padding:20px 16px 22px;margin-top:6px}
+ .workspace.filters-open .filter-actions{position:static;left:auto;right:auto;bottom:auto;display:block;box-shadow:none}
+ .workspace.filters-open .filters-done{display:none}
+ .filters .filter-title h2{font-size:18px}
+ .confirm-gift{min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:15px}
+ /* The ZIP toggle sits at the row's right edge, clear of the figures. */
+ .zip-list .zip-table td:nth-child(2){padding-right:150px}
+ .zip-list .zip-table td:nth-child(3),.zip-list .zip-table td:nth-child(4){right:44px}
+ .zip-list .zip-table td.pin{position:absolute;right:0;top:50%;transform:translateY(-50%);width:auto;padding:0}
+ .zip-list .zip-table td.pin button{width:34px;height:34px;font-size:15px}
+}
+/* City and state carry the row on a phone; the county sub-line would force a wrap. */
+@media(max-width:560px){.zip-list .zip-table td:nth-child(2) small{display:none}}

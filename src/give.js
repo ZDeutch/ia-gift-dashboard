@@ -2,9 +2,9 @@
 // scenario in the query string, and this page renders it as one social-ready graphic —
 // a navy card with the US map ghosted behind the numbers and the chosen states lit in
 // gold. Canvas-rendered so downloads are pixel-identical to the preview.
-import {loadBundle} from './data.js?v=mtv33eh4';
-import {defaults,calculate,compliance,growthProjection,zipList,MIN_RECIPIENTS} from './model.js?v=mtv33eh4';
-import {mapStates} from './map-data.js?v=mtv33eh4';
+import {loadBundle} from './data.js?v=mtv3k6l4';
+import {defaults,calculate,compliance,growthProjection,zipList,MIN_RECIPIENTS} from './model.js?v=mtv3k6l4';
+import {mapStates} from './map-data.js?v=mtv3k6l4';
 const $=id=>document.getElementById(id);
 const money=n=>'$'+Math.round(n).toLocaleString('en-US');
 const num=n=>n.toLocaleString('en-US');
