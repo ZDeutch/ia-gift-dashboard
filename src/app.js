@@ -100,6 +100,7 @@ function render(){
  $('map-sub').textContent=scenario.state?'Select the state again to return to the national view.':(scenario.zip||scenario.zips)?'States with matching ZIP codes are highlighted.':'Darker states have more children reached under the current settings. Select a state to focus the scenario.';
  $('table-title').textContent=local?`ZIP codes in ${scopeLabel()}`:'ZIP codes in the scenario';
  syncUrl();
+ if($('share-link')) $('share-link').href='./give.html'+location.search;
  renderLists(r);
 }
 // ZIP list, as in the original report: switch between ZIPs that qualify under the income limit and ZIPs that

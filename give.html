@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b52"><title>Share a Gift · Invest America</title>
+<meta property="og:title" content="One gift. Lasting opportunity."><meta property="og:description" content="See how many children a Trump Account gift could reach in your community — and what it grows into by age 18."><meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23102b52'/%3E%3Ctext x='8' y='33' fill='white' font-size='28' font-family='serif'%3EIA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./src/give.css"></head>
+<body>
+<main class="give">
+<header class="g-head"><div class="g-logos"><img src="./public/assets/trumpaccounts-gov-white.svg" alt="TrumpAccounts.gov"><i class="dot" aria-hidden="true"></i><img src="./public/assets/invest-america-white.svg" alt="Invest America"></div><a class="g-full" href="./index.html">Full dashboard →</a></header>
+<section class="g-body">
+<h1>One gift. Lasting opportunity.</h1>
+<p class="g-sub">Pick a place and a gift. The card is your answer — download it and post it.</p>
+<div class="g-controls">
+ <div class="g-field"><label for="state">Where</label><select id="state" disabled><option value="">All of America</option></select></div>
+ <div class="g-field"><label for="zip">ZIP code <span>optional</span></label><input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="e.g. 94025" autocomplete="off" disabled></div>
+ <div class="g-field g-wide"><label for="gift">Gift per child</label><div class="g-gifts"><button type="button" data-gift="100">$100</button><button type="button" data-gift="250" class="on">$250</button><button type="button" data-gift="500">$500</button><button type="button" data-gift="1000">$1,000</button><span class="g-amount"><span>$</span><input id="gift" type="number" min="25" max="1000000" step="25" value="250"></span></div></div>
+</div>
+<div class="g-cardwrap"><canvas id="card" width="1080" height="1080" role="img" aria-label="Shareable gift summary card"></canvas></div>
+<div class="g-notice" id="notice" hidden></div>
+<div class="g-actions">
+ <button class="g-dl primary" id="dl-sq">Download post <span>1:1</span></button>
+ <button class="g-dl" id="dl-ls">Link card <span>16:9</span></button>
+ <button class="g-dl" id="dl-st">Story <span>9:16</span></button>
+ <button class="g-dl" id="copy">Copy link</button>
+</div>
+<p class="g-fine">Source: U.S. Census Bureau, American Community Survey 5-Year Estimates 2020–2024 (tables B17024, B19113). Figures are survey estimates with sampling error. Growth at the selected rate is an assumption, not a guarantee.</p>
+</section>
+</main>
+<div class="g-toast" id="toast" role="status"></div>
+<script type="module" src="./src/give.js"></script>
+</body></html>
