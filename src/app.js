@@ -1,6 +1,6 @@
-import {source,census,loadBundle} from './data.js';
-import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,recommendZips,growthProjection,budgetPlan,zipList as zips,MIN_RECIPIENTS,MIN_GIFT} from './model.js';
-import {mapStates} from './map-data.js';
+import {source,census,loadBundle} from './data.js?v=mtv2opmx';
+import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,recommendZips,growthProjection,budgetPlan,zipList as zips,MIN_RECIPIENTS,MIN_GIFT} from './model.js?v=mtv2opmx';
+import {mapStates} from './map-data.js?v=mtv2opmx';
 // The dashboard can run standalone, in an iframe, or inline in another page inside a shadow root.
 const root=document.getElementById('ia-dashboard-host')?.shadowRoot||document.getElementById('ia-dashboard')||document;
 const $=id=>root.querySelector('#'+id), money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0,maximumFractionDigits:2}).format(n), num=n=>new Intl.NumberFormat('en-US').format(n);
