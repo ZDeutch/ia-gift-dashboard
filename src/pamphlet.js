@@ -1,7 +1,7 @@
 // Branded two-page pamphlet built from a dashboard scenario passed in the URL query string.
-import {loadBundle,census,TOP_CODE} from './data.js?v=mtv2opmx';
-import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,growthProjection,MIN_RECIPIENTS,MIN_GIFT} from './model.js?v=mtv2opmx';
-import {mapStates} from './map-data.js?v=mtv2opmx';
+import {loadBundle,census,TOP_CODE} from './data.js?v=mtv33eh4';
+import {defaults,calculate,escapeHtml as esc,incomeLabel,compliance,growthProjection,MIN_RECIPIENTS,MIN_GIFT} from './model.js?v=mtv33eh4';
+import {mapStates} from './map-data.js?v=mtv33eh4';
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
 const num=n=>new Intl.NumberFormat('en-US').format(Math.round(n));

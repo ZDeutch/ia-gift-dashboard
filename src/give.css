@@ -40,4 +40,17 @@ h1{font-size:clamp(26px,5vw,34px);font-weight:700;color:var(--navy);margin:30px 
 .g-fine{color:var(--muted);font-size:11px;line-height:1.6;margin-top:18px}
 .g-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;font-family:var(--font);opacity:0;pointer-events:none;transition:.25s}
 .g-toast.show{opacity:1;transform:translateX(-50%)}
-@media(max-width:520px){.g-controls{grid-template-columns:1fr}}
+/* Phone widths: keep the masthead on one line and give the card room. */
+.g-head{gap:12px}
+.g-full{white-space:nowrap}
+@media(max-width:560px){
+.g-head{padding:12px 16px}
+.g-logos{gap:8px}
+.g-logos img{height:15px}
+.g-full{font-size:12px}
+.give{padding:0 14px 40px}
+.g-cardwrap{padding:8px;margin:0 -4px}
+.g-actions{gap:6px}
+.g-dl{flex:1 1 45%;padding:11px 8px;font-size:12.5px}
+}
+@media(max-width:640px){.g-field select,.g-field input[type=text],.g-amount input{font-size:16px}}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b52"><title>Gift Planning · Invest America</title><meta property="og:title" content="Invest America Gift Planning"><meta property="og:description" content="Model how a gift into Trump Accounts could reach children by ZIP code, county, or state — built on U.S. Census data."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23102b52'/%3E%3Ctext x='8' y='33' fill='white' font-size='28' font-family='serif'%3EIA%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="./src/styles.css?v=mtv2opmx"><script>if(self!==top||/[?&]embed(=|&|$)/.test(location.search))document.documentElement.classList.add('embed');</script></head>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b52"><title>Gift Planning · Invest America</title><meta property="og:title" content="Invest America Gift Planning"><meta property="og:description" content="Model how a gift into Trump Accounts could reach children by ZIP code, county, or state — built on U.S. Census data."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23102b52'/%3E%3Ctext x='8' y='33' fill='white' font-size='28' font-family='serif'%3EIA%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="./src/styles.css?v=mtv33eh4"><script>if(self!==top||/[?&]embed(=|&|$)/.test(location.search))document.documentElement.classList.add('embed');</script></head>
 <body>
 <a class="skip" href="#results">Skip to results</a>
 
@@ -10,9 +10,8 @@
 <div class="filter-section"><h3>Which ZIP codes — any specifically?</h3><div class="field"><label class="sr-only" for="zip">ZIP code search</label><div class="input-icon"><span aria-hidden="true">⌕</span><input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="Search ZIP code" autocomplete="off"></div><button class="outline zip-add" id="zip-add" hidden>Add ZIP to selection</button><div class="zip-chips" id="zip-chips"></div></div><p class="filter-hint" id="geo-hint">Optional — add as many ZIP codes as you like, or leave empty to give everywhere in the state.</p></div>
 <div class="filter-section"><h3>Do you want to set an eligibility max?</h3><div class="field"><label class="sr-only" for="income">Maximum ZIP median family income</label><select id="income"><option value="50000">$50,000</option><option value="75000">$75,000</option><option value="100000">$100,000</option><option value="150000">$150,000</option><option value="250000" selected>$250,000</option><option value="1000000">No income limit</option></select></div><p class="filter-hint">ZIP codes qualify when their median family income is at or below this limit.</p></div>
 <div class="filter-section"><h3>How much do you want to give per child?</h3><div class="field"><label class="sr-only" for="gift">Gift per child</label><div class="amount-input"><span>$</span><input id="gift" type="number" min="25" max="1000000" step="50" value="250"></div><div class="presets"><button data-gift="100">$100</button><button data-gift="250" class="selected">$250</button><button data-gift="500">$500</button><button data-gift="1000">$1,000</button></div></div></div>
-<a class="confirm-gift" id="confirm-gift" href="./give.html">Confirm Gift →</a>
 <p class="filter-hint">A qualified gift under Section 530A and Treasury Notice 2025-68 gives at least $25 per child to at least 5,000 eligible children.</p>
-<button class="filters-done primary" id="filters-done">Show results</button></aside>
+<div class="filter-actions"><button class="filters-done" id="filters-done">Show results</button><a class="confirm-gift" id="confirm-gift" href="./give.html">Confirm Gift →</a></div></aside>
 <section class="results" id="results" aria-label="Scenario results">
 <div class="scope-bar"><div><h2 id="scope-name">United States</h2><p class="section-description" id="scope-sub">Loading Census data…</p></div><div class="scope-actions"><button class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters">Adjust scenario</button></div></div>
 <div class="compliance" id="compliance" role="status" hidden></div>
@@ -31,5 +30,5 @@
 </section></div>
 <div class="toast" id="toast" role="status"></div>
 </main>
-<script type="module" src="./src/app.js?v=mtv2opmx"></script>
+<script type="module" src="./src/app.js?v=mtv33eh4"></script>
 </body></html>
